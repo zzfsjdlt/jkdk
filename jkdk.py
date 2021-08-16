@@ -1,6 +1,8 @@
+import re
+
 import requests
 from bs4 import BeautifulSoup
-import re
+
 # import pytesseract as pt
 # import PIL
 
