@@ -1,4 +1,5 @@
 import re
+from typing import cast
 
 import requests
 from bs4 import BeautifulSoup
@@ -11,6 +12,9 @@ class Jkdk:
     def __init__(self, uid, upw):
         self.src = r'https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/login'
 
+        # self.key = key
+        self.url = 'https://push.xuthus.cc/wx/'
+
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0',
             'Referer': self.src
@@ -20,11 +24,10 @@ class Jkdk:
             'uid': uid, 'upw': upw
         }
 
-        self.uid = uid  # 用户号
-        self.upw = upw  # 密码
+        self._uid = uid  # 用户号
+        self._upw = upw  # 密码
         self.ptopid = ''
         self.sid = ''
-        pass
 
     def encode(self, page):
         text = page.text.encode(page.encoding).decode(page.apparent_encoding)
@@ -49,34 +52,41 @@ class Jkdk:
     # 判断是否已经打过卡
     def ifSigned(self, text) -> bool:
         bs4 = BeautifulSoup(text, 'lxml')
-        body = bs4.find('div', attrs={'id': 'bak_0'})
-        text = body.text
-        if text.find('今日您已经填报过了'):
-            print('好耶')
-            return True
-        else:
+        body = bs4.find('span')
+        text = body.string
+        if text == '今日您还没有填报过':
             return False
+        else:
+            return True
 
     def jkdk1(self, session):
-        page = session.post(self.src, data=self.data,
-                            headers=self.headers)
-        text = self.encode(page)  # 得到登陆后的界面，但是还没有开始正式填写
+        try:
+            page = session.post(self.src, data=self.data,
+                                headers=self.headers)
+            text = self.encode(page)  # 得到登陆后的界面，但是还没有开始正式填写
 
-        # 判断是否已经打过卡
-        if self.ifSigned(text) is False:
-            print('您已经打过卡了')
-            exit(0)
+            output = self.strSearch(r'location="(.*?)"', text)
+            self.src = output.group(1)
+            outputs = self.strSearch('ptopid=(.*)&sid=(.*)', self.src)
 
-        output = self.strSearch(r'location="(.*?)"', text)
-        self.src = output.group(1)
-        outputs = self.strSearch('ptopid=(.*)&sid=(.*)', self.src)
-
-        self.septopid = outputs.group(1)
-        self.sid = outputs.group(2)
+            self.ptopid = outputs.group(1)
+            self.sid = outputs.group(2)
+        except Exception as e:
+            print(str(e))
+            exit(-1)
+            # try:
+            #     requests.get(self.url+self.key+'/?c=打卡失败，请检查学号密码是否正确或者稍后再尝试')
+            # except:
+            #     print('微信推送也失败，你只能手动查看是否成功了')
+            #     exit(-1)
+            # else:
+            #     print('微信推送成功')
+            #     exit(-1)
 
     def jkdk2(self, session):
         page = session.get(self.src, headers=self.headers)
         text = self.encode(page=page)
+
         self.src = self.parse(text=text, label='iframe', attrs={
             'id': 'zzj_top_6s'},  target='src')
         outputs = self.strSearch(r'ptopid=(.*)&sid=(.*)', self.src)
@@ -86,6 +96,14 @@ class Jkdk:
     def jkdk3(self, session):
         page = session.get(self.src, headers=self.headers)
         text = self.encode(page)
+
+        # 判断是否已经打过卡
+        if self.ifSigned(text) is True:
+            print('您已经打过卡了')
+            requests.get(self.url+self.key+'/?c=您已经打过卡了')
+            print('微信推送成功')
+            exit(0)
+
         self.src = self.parse(text=text, label='form', attrs={
             'name': 'myform52'}, target='action')
 
@@ -106,6 +124,7 @@ class Jkdk:
             'name': 'myform52'}, target='action')
 
     def jkdk5(self, session) -> bool:
+
         form2 = {
             "myvs_1": "否",
             "myvs_2": "否",
@@ -146,9 +165,12 @@ class Jkdk:
         text = body.getText()
         if text.find('感谢'):
             print('好耶')
+            # requests.get(self.url+self.key+'/?c=打卡成功')
+            print('微信推送成功')
             return True
         else:
             print('不好')
+            # requests.get(self.url+self.key+'/?c=打卡失败')
             return False
 
     def jkdk(self):
