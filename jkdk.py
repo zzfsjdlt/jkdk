@@ -6,7 +6,7 @@ import re
 
 
 class Jkdk:
-    def __init__(self, uid='201924080230', upw='PyfDsZ25nc*nQG'):
+    def __init__(self, uid, upw):
         self.src = r'https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/login'
 
         self.headers = {
