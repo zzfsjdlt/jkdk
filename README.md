@@ -6,7 +6,7 @@
 
 ## 使用方法
 
-1. 先把代码fork到你的仓库，然后最好把仓库设置为private
+1. 先把代码fork到你的仓库
 
 ![fork截图](./images/fork.png)
 
