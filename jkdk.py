@@ -9,10 +9,10 @@ from bs4 import BeautifulSoup
 
 
 class Jkdk:
-    def __init__(self, uid, upw):
+    def __init__(self, uid, upw, key=None):
         self.src = r'https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/login'
 
-        # self.key = key
+        self.key = key
         self.url = 'https://push.xuthus.cc/wx/'
 
         self.headers = {
@@ -73,15 +73,19 @@ class Jkdk:
             self.sid = outputs.group(2)
         except Exception as e:
             print(str(e))
-            exit(-1)
-            # try:
-            #     requests.get(self.url+self.key+'/?c=打卡失败，请检查学号密码是否正确或者稍后再尝试')
-            # except:
-            #     print('微信推送也失败，你只能手动查看是否成功了')
-            #     exit(-1)
-            # else:
-            #     print('微信推送成功')
-            #     exit(-1)
+
+            if (self.key is None):
+                exit(-1)
+            else:
+                try:
+                    requests.get(self.url+self.key +
+                                 '/?c=打卡失败，请检查学号密码是否正确或者稍后再尝试')
+                except:
+                    print('微信推送也失败，你只能手动查看是否成功了')
+                    exit(-1)
+                else:
+                    print('微信推送成功')
+                    exit(-1)
 
     def jkdk2(self, session):
         page = session.get(self.src, headers=self.headers)
@@ -100,8 +104,9 @@ class Jkdk:
         # 判断是否已经打过卡
         if self.ifSigned(text) is True:
             print('您已经打过卡了')
-            requests.get(self.url+self.key+'/?c=您已经打过卡了')
-            print('微信推送成功')
+            if self.key is not None:
+                requests.get(self.url+self.key+'/?c=您已经打过卡了')
+                print('微信推送成功')
             exit(0)
 
         self.src = self.parse(text=text, label='form', attrs={
@@ -165,12 +170,14 @@ class Jkdk:
         text = body.getText()
         if text.find('感谢'):
             print('好耶')
-            # requests.get(self.url+self.key+'/?c=打卡成功')
-            print('微信推送成功')
+            if self.key is not None:
+                requests.get(self.url+self.key+'/?c=打卡成功')
+                print('微信推送成功')
             return True
         else:
             print('不好')
-            # requests.get(self.url+self.key+'/?c=打卡失败')
+            if self.key is not None:
+                requests.get(self.url+self.key+'/?c=打卡失败')
             return False
 
     def jkdk(self):
