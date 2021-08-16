@@ -63,10 +63,9 @@ class Jkdk:
         text = self.encode(page)  # 得到登陆后的界面，但是还没有开始正式填写
 
         # 判断是否已经打过卡
-        if ifSigned(text) is False:
+        if self.ifSigned(text) is False:
             print('您已经打过卡了')
             exit(0)
-            pass
 
         output = self.strSearch(r'location="(.*?)"', text)
         self.src = output.group(1)
@@ -107,7 +106,6 @@ class Jkdk:
             'name': 'myform52'}, target='action')
 
     def jkdk5(self, session) -> bool:
-
         form2 = {
             "myvs_1": "否",
             "myvs_2": "否",

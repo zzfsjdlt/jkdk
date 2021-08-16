@@ -53,4 +53,4 @@ jobs:
         env:
           username: ${{ secrets.username }}
           password: ${{ secrets.password }}
-        run: python main.py -c ${{ secrets.username }} -p ${{ secrets.password }}
+        run: python main.py
