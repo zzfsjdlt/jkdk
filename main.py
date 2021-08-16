@@ -1,4 +1,5 @@
-from selenium import webdriver
+from jkdk import Jkdk
 
-driver = webdriver.Firefox()
-driver.get("baidu.com")
+if __name__ == '__main__':
+    m = Jkdk()
+    m.jkdk()
