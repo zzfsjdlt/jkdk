@@ -1,3 +1,5 @@
 **/venv/
 *.log
-self.py
+**/__pycache__/
+*.png
+*.jpg

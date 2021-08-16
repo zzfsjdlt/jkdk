@@ -46,10 +46,28 @@ class Jkdk:
         body = bs4.find(label, attrs=attrs)
         return body.get(target)
 
+    # 判断是否已经打过卡
+    def ifSigned(self, text) -> bool:
+        bs4 = BeautifulSoup(text, 'lxml')
+        body = bs4.find('div', attrs={'id': 'bak_0'})
+        text = body.text
+        if text.find('今日您已经填报过了'):
+            print('好耶')
+            return True
+        else:
+            return False
+
     def jkdk1(self, session):
         page = session.post(self.src, data=self.data,
                             headers=self.headers)
         text = self.encode(page)  # 得到登陆后的界面，但是还没有开始正式填写
+
+        # 判断是否已经打过卡
+        if ifSigned(text) is False:
+            print('您已经打过卡了')
+            exit(0)
+            pass
+
         output = self.strSearch(r'location="(.*?)"', text)
         self.src = output.group(1)
         outputs = self.strSearch('ptopid=(.*)&sid=(.*)', self.src)

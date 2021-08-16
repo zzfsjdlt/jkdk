@@ -1,18 +1,10 @@
-# ocr recognition
+import bs4
 
-import pytesseract
-from PIL import Image
-import cv2 as cv
-import numpy as np
+with open('./test3.html', 'r') as f:
+    text = f.read()
 
-img = cv.imread('./test.png')
-
-gray_img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-gray_img = cv.medianBlur(gray_img, 3)
-# img = cv.Canny(img, 200, 200)
-
-cv.imshow('img', gray_img)
-cv.waitKey(0)
-
-# text = pytesseract.image_to_string(img)
-# print(text)
+bs4 = bs4.BeautifulSoup(text, 'lxml')
+body = bs4.find('div', attrs={'id': 'bak_0'})
+text = body.text
+if text.find('今日您已经填报过了'):
+    print('好耶')
