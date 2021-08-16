@@ -33,6 +33,6 @@
 
 2. 把调用代码SKEY保存下来，按照上文添加学号密码的方法，添加到secrets中，其中Name是key，value是你的SKEY
 
-   ![skey](./images/skey.png)
+   ![skey](./images/SKEY.png)
 
 3. 按照网站所说，关注微信号，最后成功添加微信通知。
