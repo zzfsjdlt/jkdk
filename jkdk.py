@@ -9,11 +9,14 @@ from bs4 import BeautifulSoup
 
 
 class Jkdk:
-    def __init__(self, uid, upw, key=None):
+    def __init__(self, uid, upw, key, province: str, city: str, position: str):
         self.src = r'https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/login'
 
         self.key = key
         self.url = 'https://push.xuthus.cc/wx/'
+        self.province = province
+        self.city = city
+        self.position = position
 
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0',
@@ -143,9 +146,9 @@ class Jkdk:
             "myvs_10": "否",
             "myvs_11": "否",
             "myvs_12": "否",
-            "myvs_13a": "41",
-            "myvs_13b": "4108",
-            "myvs_13c": "****",
+            "myvs_13a": self.province,
+            "myvs_13b": self.city,
+            "myvs_13c": self.position,
             "myvs_14": "否",
             "myvs_14b": "",
             "memo22": "[待定]",

@@ -12,6 +12,9 @@ import os
 username = os.environ.get('username')
 password = os.environ.get('password')
 key = os.environ.get('key')
+province = os.environ.get('province')
+city = os.environ.get('city')
+position = os.environ.get('position')
 
 print(f'username={username}')
 print(f'password={password}')
@@ -19,5 +22,6 @@ print(f'SCKEY={key}')
 
 if key == '':
     key = None
-m = Jkdk(username, password, key)
+m = Jkdk(username, password, key, province=province,
+         city=city, position=position)
 m.jkdk()
