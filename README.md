@@ -22,8 +22,12 @@
 
 添加学号，name必须是username
 密码的添加同理，但name必须是password
+添加所在地理位置，省的name必须是province，value是参考
+https://gist.github.com/mayufo/4207ed3fa925e6b3df7559832af85165，
+是所对应数字的前两位，城市的name必须是city，value是上面链接对应数字的第三、四位
+详细地址就没有要求，但是name必须是position
 
-4. 在jkdk.py里面改成自己的信息，结束。接下来每日6点10分点和7点10分会自动打卡（7点的是防止5点的打卡不成功）
+4. 结束。接下来会每日6点、6点10分和7点、7点10分自动打卡（多次打卡防止打卡失败）
 
 ---
 

@@ -53,4 +53,9 @@ jobs:
         env:
           username: ${{ secrets.username }}
           password: ${{ secrets.password }}
+          key: ${{ secrets.key }}
+          province: ${{ secrets.province }}
+          city: ${{ secrets.city }}
+          position: ${{ secrets.position }}
+
         run: python main.py
