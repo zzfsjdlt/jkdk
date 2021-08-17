@@ -23,7 +23,7 @@
 添加学号，name必须是username
 密码的添加同理，但name必须是password
 添加所在地理位置，省的name必须是province，value是参考
-https://gist.github.com/mayufo/4207ed3fa925e6b3df7559832af85165，
+https://gist.github.com/mayufo/4207ed3fa925e6b3df7559832af85165
 是所对应数字的前两位，城市的name必须是city，value是上面链接对应数字的第三、四位
 详细地址就没有要求，但是name必须是position
 
