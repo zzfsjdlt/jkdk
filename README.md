@@ -42,7 +42,7 @@ https://gist.github.com/mayufo/4207ed3fa925e6b3df7559832af85165
 
 ## 添加微信通知的方法
 
-1. 注册 https://cp.xuthus.cc/ 这个网站，然后再增强里面，下滑到微信推送，绑定微信账号
+1. 注册 https://cp.xuthus.cc/ 这个网站，然后在增强里面，下滑到微信推送，绑定微信账号
 
 2. 把调用代码SKEY保存下来，按照上文添加学号密码的方法，添加到secrets中，其中Name是key，value是你的SKEY
 
