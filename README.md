@@ -14,17 +14,26 @@
 
 ![settings](./images/settings.png)
 
-3. 添加2个仓库密钥 username和password，分别表示学号和密码
+3. 添加5个仓库密钥 username、password、province、city、position，分别表示学号、密码、省份、城市和具体位置
 
 ![添加仓库密钥](./images/secret.png)
 
 ![添加学号](./images/username.png)
 
 添加学号，name必须是username
+
+
 密码的添加同理，但name必须是password
-添加所在地理位置，省的name必须是province，value是参考
+
+
+添加省份，省份的name必须是province，value是参考
 https://gist.github.com/mayufo/4207ed3fa925e6b3df7559832af85165
-是所对应数字的前两位，城市的name必须是city，value是上面链接对应数字的第三、四位
+是所对应数字的前两位
+
+
+城市的name必须是city，value是上面链接对应数字的第三、四位
+
+
 详细地址就没有要求，但是name必须是position
 
 4. 结束。接下来会每日6点、6点10分和7点、7点10分自动打卡（多次打卡防止打卡失败）
