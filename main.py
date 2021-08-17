@@ -19,6 +19,9 @@ position = os.environ.get('position')
 print(f'username={username}')
 print(f'password={password}')
 print(f'SCKEY={key}')
+print(f'province={province}')
+print(f'city={city}')
+print(f'position={position}')
 
 if key == '':
     key = None
