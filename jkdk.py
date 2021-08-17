@@ -1,4 +1,5 @@
 import re
+import time
 from typing import cast
 
 import requests
@@ -186,7 +187,11 @@ class Jkdk:
     def jkdk(self):
         session = requests.Session()
         self.jkdk1(session)
+        time.sleep(5)
         self.jkdk2(session=session)
+        time.sleep(5)
         self.jkdk3(session)
+        time.sleep(5)
         self.jkdk4(session=session)
+        time.sleep(5)
         result = self.jkdk5(session=session)
