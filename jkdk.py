@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 
 
 class Jkdk:
-    def __init__(self, uid, upw, key, province='41', city='08', position='云台花园'):
+    def __init__(self, uid, upw, key, province, city, position):
         self.src = r'https://jksb.v.zzu.edu.cn/vls6sss/zzujksb.dll/login'
 
         self.key = key
