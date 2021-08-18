@@ -15,6 +15,8 @@ key = os.environ.get('key')
 province = os.environ.get('province')
 city = os.environ.get('city')
 position = os.environ.get('position')
+city = province+city
+
 
 print(f'username={username}')
 print(f'password={password}')

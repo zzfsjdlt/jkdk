@@ -53,6 +53,17 @@ class Jkdk:
         body = bs4.find(label, attrs=attrs)
         return body.get(target)
 
+    def push_err(self, err: str):
+        try:
+            requests.get(self.url+self.key +
+                         '/?c='+err)
+        except:
+            print('微信推送也失败，你只能手动查看是否成功了')
+            exit(-1)
+        else:
+            print('微信推送成功')
+            exit(-1)
+
     # 判断是否已经打过卡
     def ifSigned(self, text) -> bool:
         bs4 = BeautifulSoup(text, 'lxml')
@@ -68,6 +79,8 @@ class Jkdk:
             page = session.post(self.src, data=self.data,
                                 headers=self.headers)
             text = self.encode(page)  # 得到登陆后的界面，但是还没有开始正式填写
+            with open('test2.html', 'w') as f:
+                f.write(text)
 
             output = self.strSearch(r'location="(.*?)"', text)
             self.src = output.group(1)
@@ -75,25 +88,27 @@ class Jkdk:
 
             self.ptopid = outputs.group(1)
             self.sid = outputs.group(2)
+        except requests.exceptions.SSLError as e:
+            print(str(e))
+
+            if (self.key is None):
+                exit(-1)
+            else:
+                self.push_err('打卡失败，可能是网络问题，可以等待一会')
         except Exception as e:
             print(str(e))
 
             if (self.key is None):
                 exit(-1)
             else:
-                try:
-                    requests.get(self.url+self.key +
-                                 '/?c=打卡失败，请检查学号密码是否正确或者稍后再尝试')
-                except:
-                    print('微信推送也失败，你只能手动查看是否成功了')
-                    exit(-1)
-                else:
-                    print('微信推送成功')
-                    exit(-1)
+                self.push_err('打卡失败，应该是你学号密码写错了')
 
     def jkdk2(self, session):
         page = session.get(self.src, headers=self.headers)
         text = self.encode(page=page)
+
+        with open('test2.html', 'w') as f:
+            f.write(text)
 
         self.src = self.parse(text=text, label='iframe', attrs={
             'id': 'zzj_top_6s'},  target='src')
@@ -104,6 +119,9 @@ class Jkdk:
     def jkdk3(self, session):
         page = session.get(self.src, headers=self.headers)
         text = self.encode(page)
+
+        with open('test3.html', 'w') as f:
+            f.write(text)
 
         # 判断是否已经打过卡
         if self.ifSigned(text) is True:
@@ -129,11 +147,14 @@ class Jkdk:
 
         page = session.post(self.src, data=form1, headers=self.headers)
         text = self.encode(page=page)
+
+        with open('test4.html', 'w') as f:
+            f.write(text)
+
         self.src = self.parse(text=text, label='form', attrs={
             'name': 'myform52'}, target='action')
 
     def jkdk5(self, session) -> bool:
-
         form2 = {
             "myvs_1": "否",
             "myvs_2": "否",
@@ -168,11 +189,20 @@ class Jkdk:
 
         page = session.post(self.src, data=form2,
                             headers=self.headers)  # 填表
+
         text = self.encode(page)
+
+        with open('test5.html', 'w') as f:
+            f.write(text)
+
         bs4 = BeautifulSoup(text, 'lxml')
         body = bs4.find('form', attrs={'name': 'myform52'})
-        text = body.getText()
-        if text.find('感谢'):
+
+        text = body.get_text()
+
+        output = re.findall('感谢你今日上报健康状况', text)
+
+        if len(output):
             print('好耶')
             if self.key is not None:
                 requests.get(self.url+self.key+'/?c=打卡成功')
