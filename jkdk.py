@@ -148,7 +148,7 @@ class Jkdk:
         self.form["myvs_13a"] = self.province
         self.form["myvs_13b"] = self.city
         self.form["myvs_13c"] = self.position
-        self.form['myvs_26'] = '2'
+        self.form['myvs_26'] = '5'
 
     def jkdk4(self, session):
 
